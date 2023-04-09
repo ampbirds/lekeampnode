@@ -1,0 +1,19 @@
+{
+  "name": "lekeamp-parking-websocket",
+  "version": "1.0.0",
+  "description": "Parking Stations",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "nodemon:start": "nodemon index.js"
+  },
+  "author": "Vinayak Horambe",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.6.0",
+    "mysql": "^2.18.1",
+    "cors": "^2.8.5",
+    "body-parser": "^1.19.0"
+  }
+}

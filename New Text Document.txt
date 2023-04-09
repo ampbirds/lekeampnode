@@ -1,0 +1,161 @@
+get fees for user
+
+	lekeamp deposite fees
+	user available deposite in wallet
+	prebooking parking fees
+	booking parking fees
+	tax
+
+
+create order
+
+	if wallet has extra money(other than deposite)
+		if wallet has all booking amount
+			1. deduct booking amount from wallet
+			2.	-----book the lock------
+				Book:
+					if check lock status is available || prebook
+						if lock status available
+							i. update lock status to book
+							ii. update book entry time
+							iii. update book exit time as per selected book parking time
+							iv. connect to websocket & connect selected esp8266(Station) 
+							v. set status book to the selected lock of selectd station
+							vi. return response successs
+						if lock status prebook
+							if prebook user id and book userid match
+								i. update lock status to book
+								ii. update book entry time
+								iii. update book exit time as per selected book parking time
+								iv. connect to websocket & connect selected esp8266(Station) 
+								v. set status book to the selected lock of selectd station
+								vi. return response successs
+							else
+								MSG: somebody book this lock
+								Add booking money into wallet
+								return response failed
+				Prebook:
+					if check lock status is available
+						i. update status to prebook
+						ii. update prebook entry time
+						iii. update prebook exit time as per selected prebook parking time
+						iv. connect to websocket & connect selected esp8266(Station) 
+						v. set status prebook to the selected lock of selectd station
+						vi. return response successs
+					else 
+						MSG: lock allocation failed select other lock
+						Add booking money into wallet
+						return response failed 
+		else
+			create razorpay order with remaining amount(booking amount - wallet(other than deposite))
+	else 
+		create razorpay order with actual amount
+
+
+
+
+
+
+
+update order
+
+	Book
+		if check userid and orderid match
+			if check payment status (from razor pay)
+				i. update payment completed against orderid
+				if check amount include deposited fees
+					i. update isDeposited flag true
+					ii. add deposite amount into wallet
+					if check lock status is available || prebook
+						if lock status available
+							i. update lock status to book
+							ii. update book entry time
+							iii. update book exit time as per selected book parking time
+							iv. connect to websocket & connect selected esp8266(Station) 
+							v. set status book to the selected lock of selectd station
+							vi. return response successs
+						if lock status prebook
+							if prebook user id and book userid match
+								i. update status to book
+								ii. update book entry time
+								iii. update book exit time as per selected book parking time
+								iv. connect to websocket & connect selected esp8266(Station) 
+								v. set status book to the selected lock of selectd station
+								vi. return response successs
+							else
+								MSG: somebody book this lock
+								Add booking money into wallet
+								return response failed
+					else 
+						MSG: lock allocation failed select other lock
+						Add booking money into wallet
+						return response failed 
+				else
+					if check lock status is available || prebook
+						if lock status available
+							i. update status to book
+							ii. update book entry time
+							iii. update book exit time as per selected book parking time
+							iv. connect to websocket & connect selected esp8266(Station) 
+							v. set status book to the selected lock of selectd station
+							vi. return response successs
+						if lock status prebook
+							if prebook user id and book userid match
+								i. update status to book
+								ii. update book entry time
+								iii. update book exit time as per selected book parking time
+								iv. connect to websocket & connect selected esp8266(Station) 
+								v. set status book to the selected lock of selectd station
+								vi. return response successs
+							else
+								MSG: somebody book this lock
+								Add money into wallet
+								return response failed
+					else 
+						MSG: lock allocation failed select other lock
+						Add booking money into wallet
+						return response failed 
+			else 
+				payment is not valid
+		else 
+			MSG: order failed
+			return response failed 
+
+
+	Prebook
+
+		if check userid and orderid match
+			if check payment status (from razor pay)
+				i. update payment completed against orderid
+				if check amount include deposited fees
+					i. update isDeposited flag 
+					ii. add deposite amount into wallet
+					if check lock status is available
+						i. update status to prebook
+						ii. update prebook entry time
+						iii. update prebook exit time as per selected prebook parking time
+						iv. connect to websocket & connect selected esp8266(Station) 
+						v. set status prebook to the selected lock of selectd station
+						vi. return response successs
+					else 
+						MSG: lock allocation failed select other lock
+						Add booking money into wallet
+						return response failed 
+				else
+					if check lock status is available
+						i. update status to prebook
+						ii. update prebook entry time
+						iii. update prebook exit time as per selected prebook parking time
+						iv. connect to websocket & connect selected esp8266(Station) 
+						v. set status prebook to the selected lock of selectd station
+						vi. return response successs
+					else 
+						MSG: lock allocation failed select other lock
+						Add booking money into wallet
+						return response failed 
+			else 
+				MSG: payment is not valid
+				return response failed
+		else 
+			MSG: order failed
+			return response failed
